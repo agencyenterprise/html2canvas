@@ -160,7 +160,24 @@ export default class Renderer {
         };
         const paths = container.getClipPaths();
         if (paths.length) {
-            this.target.clip(paths, callback);
+            if (container && container.style.transform) {
+                const transform = container.style.transform;
+                const inverseTransform = matrixInverse(transform.transform);
+                this.target.transform(
+                   container.bounds.left + transform.transformOrigin[0].value,
+                    container.bounds.top + transform.transformOrigin[1].value,
+                    inverseTransform,
+                    () => {
+                        this.target.clip(paths, callback);
+                        this.target.transform(
+                            container.bounds.left + transform.transformOrigin[0].value,
+                            container.bounds.top + transform.transformOrigin[1].value,
+                            transform.transform, () => {});
+                    }
+                );
+            } else {
+                this.target.clip(paths, callback);
+            }
         } else {
             callback();
         }
@@ -454,3 +471,11 @@ const sortByZIndex = (a: StackingContext, b: StackingContext): number => {
 
     return a.container.index > b.container.index ? 1 : -1;
 };
+
+function matrixInverse(m) {
+    // This is programmed specifically for transform matrices, which have a fixed structure.
+    var a = m[0], b = m[2], c = m[4], d = m[1], e = m[3], f = m[5];
+    var det = a*e - b*d;
+    var M = [e, -d, -b, a, b*f-c*e, c*d-a*f].map(function(val) { return val/det; });
+    return M;
+}
