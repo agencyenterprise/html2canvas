@@ -1,11 +1,14 @@
 ### Changelog ###
 
+####  bugs/clip-transform - 6.6.2018 ####
+ * Try to fix clip/transform issue
+
 #### v1.0.0-alpha.12 - 5.4.2018 ####
  * Fix white space appearing on element rendering (Fix #1438)
  * Reset canvas transform on finish (Fix #1494)
 
 #### v1.0.0-alpha.11 - 1.4.2018 ####
- * Fix IE11 member not found error 
+ * Fix IE11 member not found error
  * Support blob image resources in non-foreignObjectRendering mode
 
 #### v1.0.0-alpha.10 - 15.2.2018 ####
@@ -57,7 +60,7 @@
  ##### Breaking Changes #####
  * Remove deprecated onrendered callback, calling `html2canvas` returns a `Promise<HTMLCanvasElement>`
  * Removed option `type`, same results can be achieved by assigning `x`, `y`, `scrollX`, `scrollY`, `width` and `height` properties.
- 
+
  ##### New featues / fixes #####
  * Add support for scaling canvas (defaults to device pixel ratio)
  * Add support for multiple text-shadows
@@ -67,7 +70,7 @@
  * Correctly handle px and percentage values in linear-gradients
  * Correctly support all angle types for linear-gradients
  * Add support for multiple values for background-repeat, background-position and background-size
- 
+
 #### v0.5.0-beta4 - 23.1.2016 ####
  * Fix logger requiring access to window object
  * Derequire browserify build
@@ -91,7 +94,7 @@
  * Switch to using browserify for building
  * Fix (#517) Chrome stretches background images with 'auto' or single attributes
 
-#### v0.5.0-alpha - 19.1.2015#### 
+#### v0.5.0-alpha - 19.1.2015####
  * Complete rewrite of library
  * Switched interface to return Promise
  * Uses hidden iframe window to perform rendering, allowing async rendering and doesn't force the viewport to be scrolled to the top anymore.
