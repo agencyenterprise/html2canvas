@@ -159,26 +159,10 @@ export default class Renderer {
             }
         };
         console.log('Gratuitious comment here');
+        const paths2 = container.getClipPaths();
         const paths = container.getClipPaths();
-        if (paths.length) {
-            if (container && container.style.transform) {
-                const transform = container.style.transform;
-                const inverseTransform = matrixInverse(transform.transform);
-                this.target.transform(
-                   container.bounds.left + transform.transformOrigin[0].value,
-                    container.bounds.top + transform.transformOrigin[1].value,
-                    inverseTransform,
-                    () => {
-                        this.target.clip(paths, callback);
-                        this.target.transform(
-                            container.bounds.left + transform.transformOrigin[0].value,
-                            container.bounds.top + transform.transformOrigin[1].value,
-                            transform.transform, () => {});
-                    }
-                );
-            } else {
-                this.target.clip(paths, callback);
-            }
+        if (paths.length && path2.length) {
+            this.target.clip(paths2, callback);
         } else {
             callback();
         }
@@ -204,7 +188,7 @@ export default class Renderer {
                 this.target.clip([backgroundPaintingArea], () => {
                     if (!container.style.background.backgroundColor.isTransparent()) {
                         this.target.fill(container.style.background.backgroundColor);
-                    }
+                    }///
 
                     this.renderBackgroundImage(container);
                 });
