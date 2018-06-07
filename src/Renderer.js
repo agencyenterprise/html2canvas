@@ -158,6 +158,7 @@ export default class Renderer {
                 }
             }
         };
+        console.log('Gratuitious comment here');
         const paths = container.getClipPaths();
         if (paths.length) {
             if (container && container.style.transform) {
