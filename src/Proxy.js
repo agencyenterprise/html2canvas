@@ -23,9 +23,13 @@ export const Proxy = (src: string, options: Options): Promise<string> => {
                     } else {
                         const reader = new FileReader();
                         // $FlowFixMe
-                        reader.addEventListener('load', () => resolve(reader.result), false);
+                        reader.onload = () => {
+                            resolve(reader.result);
+                        };
                         // $FlowFixMe
-                        reader.addEventListener('error', e => reject(e), false);
+                        reader.onerror = (e) => {
+                            reject(e);
+                        };
                         reader.readAsDataURL(xhr.response);
                     }
                 } else {

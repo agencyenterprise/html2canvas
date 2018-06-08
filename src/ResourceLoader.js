@@ -84,16 +84,15 @@ export default class ResourceLoader {
                         );
                     } else {
                         const reader = new FileReader();
-                        reader.addEventListener(
-                            'load',
+                        reader.onload =
                             () => {
                                 // $FlowFixMe
                                 const result: string = reader.result;
                                 resolve(result);
-                            },
-                            false
-                        );
-                        reader.addEventListener('error', (e: Event) => reject(e), false);
+                            };
+                        reader.onerror = (e: Event) => {
+                            reject(e);
+                        };
                         reader.readAsDataURL(xhr.response);
                     }
                 }
