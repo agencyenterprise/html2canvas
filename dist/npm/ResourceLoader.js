@@ -89,14 +89,14 @@ var ResourceLoader = function () {
                             reject('Failed to fetch image ' + src.substring(0, 256) + ' with status code ' + xhr.status);
                         } else {
                             var reader = new FileReader();
-                            reader.addEventListener('load', function () {
+                            reader.onload = function () {
                                 // $FlowFixMe
                                 var result = reader.result;
                                 resolve(result);
-                            }, false);
-                            reader.addEventListener('error', function (e) {
-                                return reject(e);
-                            }, false);
+                            };
+                            reader.onerror = function (e) {
+                                reject(e);
+                            };
                             reader.readAsDataURL(xhr.response);
                         }
                     }

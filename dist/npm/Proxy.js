@@ -28,13 +28,13 @@ var Proxy = exports.Proxy = function Proxy(src, options) {
                     } else {
                         var reader = new FileReader();
                         // $FlowFixMe
-                        reader.addEventListener('load', function () {
-                            return resolve(reader.result);
-                        }, false);
+                        reader.onload = function () {
+                            resolve(reader.result);
+                        };
                         // $FlowFixMe
-                        reader.addEventListener('error', function (e) {
-                            return reject(e);
-                        }, false);
+                        reader.onerror = function (e) {
+                            reject(e);
+                        };
                         reader.readAsDataURL(xhr.response);
                     }
                 } else {
