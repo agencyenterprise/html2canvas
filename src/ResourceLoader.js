@@ -84,12 +84,11 @@ export default class ResourceLoader {
                         );
                     } else {
                         const reader = new FileReader();
-                        reader.onload =
-                            () => {
-                                // $FlowFixMe
-                                const result: string = reader.result;
-                                resolve(result);
-                            };
+                        reader.onload = () => {
+                            // $FlowFixMe
+                            const result: string = reader.result;
+                            resolve(result);
+                        };
                         reader.onerror = (e: Event) => {
                             reject(e);
                         };
