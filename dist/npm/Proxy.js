@@ -27,11 +27,11 @@ var Proxy = exports.Proxy = function Proxy(src, options) {
                         resolve(xhr.response);
                     } else {
                         var reader = new FileReader();
-                        // $FlowFixMe
                         reader.onload = function () {
-                            resolve(reader.result);
+                            // $FlowFixMe
+                            var result = reader.result;
+                            resolve(result);
                         };
-                        // $FlowFixMe
                         reader.onerror = function (e) {
                             reject(e);
                         };

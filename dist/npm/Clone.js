@@ -169,7 +169,7 @@ var DocumentCloner = exports.DocumentCloner = function () {
                     width = _parseBounds.width,
                     height = _parseBounds.height;
 
-                this.resourceLoader.cache[iframeKey] = getIframeDocumentElement(node, this.options).then(function (documentElement) {
+                getIframeDocumentElement(node, this.options).then(function (documentElement) {
                     return _this3.renderer(documentElement, {
                         async: _this3.options.async,
                         allowTaint: _this3.options.allowTaint,
@@ -193,7 +193,7 @@ var DocumentCloner = exports.DocumentCloner = function () {
                         scrollY: documentElement.ownerDocument.defaultView.pageYOffset
                     }, _this3.logger.child(iframeKey));
                 }).then(function (canvas) {
-                    return new Promise(function (resolve, reject) {
+                    return _this3.resourceLoader.cache[iframeKey] = new Promise(function (resolve, reject) {
                         var iframeCanvas = document.createElement('img');
                         iframeCanvas.onload = function () {
                             return resolve(canvas);
@@ -204,6 +204,8 @@ var DocumentCloner = exports.DocumentCloner = function () {
                             tempIframe.parentNode.replaceChild((0, _Util.copyCSSStyles)(node.ownerDocument.defaultView.getComputedStyle(node), iframeCanvas), tempIframe);
                         }
                     });
+                }).catch(function () {
+                    // unable to turn iframe into image
                 });
                 return tempIframe;
             }
