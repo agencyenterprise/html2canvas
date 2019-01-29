@@ -225,7 +225,9 @@ export class DocumentCloner {
                                 );
                             }
                         })
-                );
+                ).catch(() => {
+                    // unable to turn iframe into image
+                });
             return tempIframe;
         }
 
