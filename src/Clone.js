@@ -179,7 +179,7 @@ export class DocumentCloner {
 
             const {width, height} = parseBounds(node, 0, 0);
 
-            this.resourceLoader.cache[iframeKey] = getIframeDocumentElement(node, this.options)
+            getIframeDocumentElement(node, this.options)
                 .then(documentElement => {
                     return this.renderer(
                         documentElement,
@@ -208,24 +208,26 @@ export class DocumentCloner {
                         this.logger.child(iframeKey)
                     );
                 })
-                .then(
-                    canvas =>
-                        new Promise((resolve, reject) => {
-                            const iframeCanvas = document.createElement('img');
-                            iframeCanvas.onload = () => resolve(canvas);
-                            iframeCanvas.onerror = reject;
-                            iframeCanvas.src = canvas.toDataURL();
-                            if (tempIframe.parentNode) {
-                                tempIframe.parentNode.replaceChild(
-                                    copyCSSStyles(
-                                        node.ownerDocument.defaultView.getComputedStyle(node),
-                                        iframeCanvas
-                                    ),
-                                    tempIframe
-                                );
-                            }
-                        })
-                );
+                .then(canvas => {
+                    this.resourceLoader.cache[iframeKey] = new Promise((resolve, reject) => {
+                        const iframeCanvas = document.createElement('img');
+                        iframeCanvas.onload = () => resolve(canvas);
+                        iframeCanvas.onerror = reject;
+                        iframeCanvas.src = canvas.toDataURL();
+                        if (tempIframe.parentNode) {
+                            tempIframe.parentNode.replaceChild(
+                                copyCSSStyles(
+                                    node.ownerDocument.defaultView.getComputedStyle(node),
+                                    iframeCanvas
+                                ),
+                                tempIframe
+                            );
+                        }
+                    });
+                })
+                .catch(() => {
+                    // unable to turn iframe into image
+                });
             return tempIframe;
         }
 

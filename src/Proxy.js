@@ -22,12 +22,12 @@ export const Proxy = (src: string, options: Options): Promise<string> => {
                         resolve(xhr.response);
                     } else {
                         const reader = new FileReader();
-                        // $FlowFixMe
                         reader.onload = () => {
-                            resolve(reader.result);
+                            // $FlowFixMe
+                            const result: string = reader.result;
+                            resolve(result);
                         };
-                        // $FlowFixMe
-                        reader.onerror = (e) => {
+                        reader.onerror = e => {
                             reject(e);
                         };
                         reader.readAsDataURL(xhr.response);
